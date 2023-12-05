@@ -4,7 +4,9 @@ package COMP009;
 // CASTRO, MACASINAG, NARISMA, ROMALES
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 class PIZZA {
     String Toppings, Discount;
@@ -13,24 +15,30 @@ class PIZZA {
 
     // Method to set the toppings using a dialog box
     public void setToppings() {
-        String[] toppingsOptions = {"", "Pepperoni", "Ham and Cheese", "Hawaiian"};
+    String[] toppingsOptions = {"", "Pepperoni", "Ham and Cheese", "Hawaiian"};
 
-        JComboBox<String> comboBox = new JComboBox<>(toppingsOptions);
-        int option = JOptionPane.showConfirmDialog(null, comboBox, "Choose Toppings",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+    JComboBox<String> comboBox = new JComboBox<>(toppingsOptions);
 
-        if (option == JOptionPane.OK_OPTION) {
-            this.Toppings = (String) comboBox.getSelectedItem();
-            displayToppingsConfirmation();  // Add this line to display the confirmation dialog
-        }
+    // Customize the appearance of the dialog box
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Choose Toppings:"));
+    panel.add(comboBox);
+
+    int option = JOptionPane.showConfirmDialog(null, panel, "Pizza Program",
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+    if (option == JOptionPane.OK_OPTION) {
+        this.Toppings = (String) comboBox.getSelectedItem();
+        displayToppingsConfirmation();  // Add this line to display the confirmation dialog
     }
+}
 
     // Method to display a confirmation dialog for chosen toppings
     public void displayToppingsConfirmation() {
         double toppingsPrice = getToppingsPrice(this.Toppings);
 
         JOptionPane.showMessageDialog(null,
-                "You chose \"" + this.Toppings + "\" which amounts to additional PHP " + toppingsPrice,
+                "You chose " + this.Toppings + " which amounts to additional PHP " + toppingsPrice,
                 "Message", JOptionPane.INFORMATION_MESSAGE);
 
         confirmToppings();  // Ask the user if they are sure with their choice
@@ -38,7 +46,7 @@ class PIZZA {
 
     // Method to confirm the chosen toppings
     public void confirmToppings() {
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want \"" + this.Toppings + "\"?",
+        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want " + this.Toppings + "?",
                 "Confirm Question", JOptionPane.YES_NO_OPTION);
 
         if (option == JOptionPane.NO_OPTION) {
@@ -104,7 +112,7 @@ class PIZZA {
     public void setDiscount() {
         String[] discountOptions = {"N/A", "Senior/PWD", "VIP"};
         int choice = JOptionPane.showOptionDialog(null, "Choose Discount", "Pizza Program",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, discountOptions, discountOptions[0]);
+             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, discountOptions, discountOptions[0]);
 
         this.Discount = discountOptions[choice];
         if (!this.Discount.equals("N/A")) {
@@ -183,9 +191,10 @@ public class PizzaPie {
                 String amountReceivedInput = JOptionPane.showInputDialog("Enter Amount Received (PHP):");
                 amountReceived = Double.parseDouble(amountReceivedInput);
                 if (amountReceived < amountDue) {
-                    JOptionPane.showMessageDialog(null, "Insufficient amount!");
+                    JOptionPane.showMessageDialog(null, "Insufficient amount!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             } while (amountReceived <= amountDue);
+            
 
             double change = amountReceived - amountDue;
             JOptionPane.showMessageDialog(null, "Change: PHP " + change);
