@@ -1,5 +1,8 @@
 package COMP009;
 
+// Programming Task 6
+// CASTRO, MACASINAG, NARISMA, ROMALES
+
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 
